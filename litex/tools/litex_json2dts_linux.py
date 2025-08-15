@@ -655,7 +655,7 @@ def generate_dts(d, initrd_start=None, initrd_size=None, initrd=None, root_devic
 
     # SPI Flash ------------------------------------------------------------------------------------
 
-    if "spiflash" in d["csr_bases"]:
+    if "spiflash_core" in d["csr_bases"]:
         aliases["spiflash"] = "litespiflash"
         dts += """
             litespiflash: spiflash@{spiflash_csr_base:x} {{
@@ -668,7 +668,7 @@ def generate_dts(d, initrd_start=None, initrd_size=None, initrd=None, root_devic
                     reg = <0x0 0x{spiflash_size:x}>;
                 }};
             }};
-""".format(spiflash_csr_base=d["csr_bases"]["spiflash"], spiflash_size=d["memories"]["spiflash"]["size"])
+""".format(spiflash_csr_base=d["csr_bases"]["spiflash_core"], spiflash_size=d["memories"]["spiflash"]["size"])
 
     # SPI-SDCard -----------------------------------------------------------------------------------
 
