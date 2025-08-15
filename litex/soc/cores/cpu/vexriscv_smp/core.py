@@ -291,7 +291,6 @@ class VexRiscvSMP(CPU):
         if(VexRiscvSMP.coherent_dma):
             gen_args.append("--coherent-dma")
         gen_args.append(f"--cpu-count={VexRiscvSMP.cpu_count}")
-        gen_args.append(f"--reset-vector={VexRiscvSMP.reset_vector}")
         gen_args.append(f"--ibus-width={VexRiscvSMP.icache_width}")
         gen_args.append(f"--dbus-width={VexRiscvSMP.dcache_width}")
         gen_args.append(f"--dcache-size={VexRiscvSMP.dcache_size}")
@@ -313,7 +312,6 @@ class VexRiscvSMP(CPU):
         gen_args.append(f"--netlist-directory={vdir}")
         gen_args.append(f"--dtlb-size={VexRiscvSMP.dtlb_size}")
         gen_args.append(f"--itlb-size={VexRiscvSMP.itlb_size}")
-        gen_args.append(f"--jtag-tap={VexRiscvSMP.jtag_tap}")
 
         cmd = 'cd {path} && sbt "runMain vexriscv.demo.smp.VexRiscvLitexSmpClusterCmdGen {args}"'.format(path=os.path.join(vdir, "ext", "VexRiscv"), args=" ".join(gen_args))
         subprocess.check_call(cmd, shell=True)
@@ -487,7 +485,7 @@ class VexRiscvSMP(CPU):
             soc.csr.add("timer0", n=3)
 
             # Add OpenSBI region.
-            soc.bus.add_region("opensbi", SoCRegion(origin=self.mem_map["main_ram"] + 0x00f0_0000, size=0x8_0000, cached=True, linker=True))
+            soc.bus.add_region("opensbi", SoCRegion(origin=self.mem_map["main_ram"] + 0x00f0_0000, size=0x3_0000, cached=True, linker=True))
 
         # Define number of CPUs
         soc.add_config("CPU_COUNT", VexRiscvSMP.cpu_count)
